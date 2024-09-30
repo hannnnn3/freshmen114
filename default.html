@@ -3,60 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新生資訊單</title>
+    <title>響應式新生資訊單</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 100%;
-            max-height: 100vh;
+        .map-container {
             position: relative;
+            width: 100%;
+            max-width: 1000px; /* 假設原圖寬度為1000px */
+            margin: 0 auto;
         }
-        img {
-            max-width: 100%;
+        .map-container img {
+            width: 100%;
             height: auto;
-            display: block;
         }
-        area {
-            cursor: pointer;
+        .map-link {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.0);
+            transition: background 0.3s;
         }
-        /* 用於調試的樣式 */
-        .debug area {
-            outline: 2px solid red;
-            background-color: rgba(255, 0, 0, 0.2);
+        .map-link:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="0.png" usemap="#image-map">
-        <map name="image-map">
-            <area target="_blank" alt="" title="" href="https://www.youtube.com/watch?v=iKUwMUjavP4" coords="420,445,126,408" shape="rect">
-            <area target="" alt="" title="" href="" coords="642,444,514,412" shape="rect">
-            <area target="" alt="" title="" href="" coords="655,272,831,305" shape="rect">
-            <area target="" alt="" title="" href="" coords="885,439,1016,470" shape="rect">
-            <area target="" alt="" title="" href="" coords="294,585,423,618" shape="rect">
-            <area target="" alt="" title="" href="" coords="576,573,736,605" shape="rect">
-            <area target="" alt="" title="" href="" coords="381,775,539,809" shape="rect">
-            <area target="" alt="" title="" href="" coords="391,831,470,859" shape="rect">
-            <area target="" alt="" title="" href="" coords="389,878,468,905" shape="rect">
-            <area target="" alt="" title="" href="" coords="389,924,494,951" shape="rect">
-        </map>
+    <div class="map-container">
+        <img src="0.png" alt="新生資訊單">
+        <a href="https://www.youtube.com/watch?v=iKUwMUjavP4" class="map-link" style="left: 12.6%; top: 40.8%; width: 29.4%; height: 3.7%;"></a>
+        <!-- 添加其他鏈接 -->
     </div>
+
     <script>
-        // 用於切換調試模式
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'd' || e.key === 'D') {
-                document.body.classList.toggle('debug');
-            }
-        });
+        function adjustMapLinks() {
+            const container = document.querySelector('.map-container');
+            const img = container.querySelector('img');
+            const links = container.querySelectorAll('.map-link');
+            const ratio = img.width / 1000; // 假設原圖寬度為1000px
+
+            links.forEach(link => {
+                const style = window.getComputedStyle(link);
+                const left = parseFloat(style.left) * ratio;
+                const top = parseFloat(style.top) * ratio;
+                const width = parseFloat(style.width) * ratio;
+                const height = parseFloat(style.height) * ratio;
+
+                link.style.left = `${left}px`;
+                link.style.top = `${top}px`;
+                link.style.width = `${width}px`;
+                link.style.height = `${height}px`;
+            });
+        }
+
+        window.addEventListener('load', adjustMapLinks);
+        window.addEventListener('resize', adjustMapLinks);
     </script>
 </body>
 </html>
